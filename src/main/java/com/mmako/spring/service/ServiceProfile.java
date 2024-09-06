@@ -1,5 +1,6 @@
-package com.mmako.spring;
+package com.mmako.spring.service;
 
+import com.mmako.spring.service.models.ServiceUser;
 import org.springframework.stereotype.Service;
 
 @Service

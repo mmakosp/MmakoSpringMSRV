@@ -1,4 +1,4 @@
-package com.mmako.spring;
+package com.mmako.spring.service.models;
 
 public class ServiceUser {
     private String name;

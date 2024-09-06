@@ -1,5 +1,7 @@
-package com.mmako.spring;
+package com.mmako.spring.controller;
 
+import com.mmako.spring.service.ServiceProfile;
+import com.mmako.spring.service.models.ServiceUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

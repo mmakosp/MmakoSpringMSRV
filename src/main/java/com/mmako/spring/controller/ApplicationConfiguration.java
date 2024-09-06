@@ -1,4 +1,4 @@
-package com.mmako.spring;
+package com.mmako.spring.controller;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
