@@ -1,0 +1,102 @@
+swagger: '2.0'
+info:
+  title: COVID-19 Statistics API
+  description: API for COVID-19 stats for regions and provinces.
+  version: 1.0.0
+host: covid-19-statistics.p.rapidapi.com
+basePath: /
+schemes:
+  - https
+paths:
+  /regions:
+    get:
+      summary: Get regions
+      description: Retrieve a list of regions.
+      operationId: getRegions
+      parameters:
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: size
+          in: query
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Region'
+        '500':
+          description: Internal server error
+  /provinces:
+    get:
+      summary: Get provinces
+      description: List of provinces for region.
+      operationId: getProvinces
+      parameters:
+        - name: iso
+          in: query
+          description: ISO code for a region
+          required: true
+          type: string
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: size
+          in: query
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Province'
+        '500':
+          description: Internal server error
+definitions:
+  Region:
+    type: object
+    properties:
+      iso:
+        type: string
+      name:
+        type: string
+
+  Province:
+    type: object
+    properties:
+      iso:
+        type: string
+      name:
+        type: string
+      province:
+        type: string
+      lat:
+        type: string
+      long:
+        type: string
+
+securityDefinitions:
+  api_key:
+    type: apiKey
+    in: header
+    name: x-rapidapi-key
+
+security:
+  - api_key: []

@@ -8,8 +8,8 @@ public class ServiceProfile {
 
         public ServiceUser serviceUser() {
         return new ServiceUser(
-                "Mmako",
-                "Sekhosana",
+                "John",
+                "Doe",
                 "12345");
     }
 }

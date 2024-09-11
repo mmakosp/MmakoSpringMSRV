@@ -1,0 +1,10 @@
+generatorName: java
+inputSpec: src/main/resources/swagger.yaml
+outputDir: generated-code
+modelPackage: com.mmako.spring.service.models
+apiPackage: com.mmako.spring.service.api
+invokerPackage: com.mmako.spring
+library: okhttp-gson
+configOptions:
+  dateLibrary: java8
+  serializableModel: true

@@ -11,7 +11,6 @@ public class ServiceUser {
         this.number = number;
     }
 
-    // Getters and Setters (if needed)
     public String getName() {
         return name;
     }
