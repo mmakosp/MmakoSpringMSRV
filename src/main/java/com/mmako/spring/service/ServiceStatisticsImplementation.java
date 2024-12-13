@@ -5,6 +5,7 @@ import com.mmako.spring.service.models.covidstats.provinces.Provinces;
 import com.mmako.spring.service.models.covidstats.provinces.ProvincesResponse;
 import com.mmako.spring.service.models.covidstats.regions.Region;
 import com.mmako.spring.service.models.covidstats.regions.RegionResponse;
+import org.springframework.cache.annotation.Cacheable;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -22,6 +23,7 @@ public class ServiceStatisticsImplementation implements ServiceStatistics {
     }
 
     @Override
+    @Cacheable(value = "regions-cache", key = "#page + '-' + #size")
     public List<Region> getRegions(int page, int size) {
         Call<RegionResponse> call = covidStatsApi.getRegions(page, size);
         try {
@@ -46,12 +48,17 @@ public class ServiceStatisticsImplementation implements ServiceStatistics {
     }
 
     @Override
-    public List<Provinces> getProvinces(String iso, int page, int size) {
-        Call<ProvincesResponse> call = covidStatsApi.getProvinces(iso, page, size);
+    @Cacheable(value = "provinces-cache", key = "#iso + '-' + #page + '-' + #size + '-' + #provinceNameFilter")
+    public List<Provinces> getProvinces(String iso, int page, int size, String provinceNameFilter) {
+        Call<ProvincesResponse> call = covidStatsApi.getProvinces(iso, page, size, provinceNameFilter);
         try {
             Response<ProvincesResponse> response = call.execute();
             if (response.isSuccessful() && response.body() != null) {
                 List<Provinces> provinces = getProvincesList(response);
+
+                if (provinceNameFilter != null && !provinceNameFilter.isEmpty()) {
+                    provinces = filterByProvinceName(provinces, provinceNameFilter);
+                }
 
                 int startIndex = (page - 1) * size;
                 int endIndex = Math.min(startIndex + size, provinces.size());
@@ -67,6 +74,16 @@ public class ServiceStatisticsImplementation implements ServiceStatistics {
         } catch (IOException exception) {
             throw new ServiceCallException("Provinces API call failure", exception);
         }
+    }
+
+    private List<Provinces> filterByProvinceName(List<Provinces> provinces, String provinceNameFilter) {
+        List<Provinces> filteredList = new ArrayList<>();
+        for (Provinces province : provinces) {
+            if (province.getProvince().toLowerCase().contains(provinceNameFilter.toLowerCase())) {
+                filteredList.add(province);
+            }
+        }
+        return filteredList;
     }
 
     private List<Region> getRegionList(Response<RegionResponse> response) {

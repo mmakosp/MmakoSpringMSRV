@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 public interface CovidStatsApi {
 
     @GET("provinces")
-    Call<ProvincesResponse> getProvinces(@Query("iso") String iso, @Query("page") int page, @Query("size") int size);
+    Call<ProvincesResponse> getProvinces(@Query("iso") String iso, @Query("page") int page, @Query("size") int size, @Query("provinceNameFilter") String provinceNameFilter);
 
     @GET("regions")
     Call<RegionResponse> getRegions(@Query("page") int page, @Query("size") int size);

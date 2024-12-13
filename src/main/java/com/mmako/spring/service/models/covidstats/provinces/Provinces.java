@@ -1,5 +1,9 @@
 package com.mmako.spring.service.models.covidstats.provinces;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.mmako.spring.config.CovidAPiDeserializer;
+
+@JsonDeserialize(using = CovidAPiDeserializer.class)
 
 public class Provinces {
 
@@ -7,11 +11,9 @@ public class Provinces {
     private String name;
     private String province;
 
-    @JsonProperty("lat")
-    private String latitude;
+    private String lat;
 
-    @JsonProperty("long")
-    private String longitude;
+    private String lng;
 
     public String getIso() {
         return iso;
@@ -30,7 +32,7 @@ public class Provinces {
     }
 
     public String getProvince() {
-        return iso;
+        return province;
     }
 
     public void setProvince(String province) {
@@ -38,18 +40,18 @@ public class Provinces {
     }
 
     public String getLatitude() {
-        return latitude;
+        return lat;
     }
 
     public void setLatitude(String latitude) {
-        this.latitude = latitude;
+        this.lat = latitude;
     }
 
     public String getLongitude() {
-        return latitude;
+        return lng;
     }
 
     public void setLongitude(String longitude) {
-        this.longitude = longitude;
+        this.lng = longitude;
     }
 }

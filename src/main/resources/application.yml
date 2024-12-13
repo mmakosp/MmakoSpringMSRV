@@ -1,0 +1,10 @@
+#spring:
+#  application:
+#    name: spring
+#  profiles:
+#    active: @profileActive@
+#
+##Dev and test Configuration
+#  config:
+#    activate:
+#      on-profile: dev,test
