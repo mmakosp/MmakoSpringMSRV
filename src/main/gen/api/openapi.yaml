@@ -1,0 +1,142 @@
+openapi: 3.0.1
+info:
+  description: API for COVID-19 stats for regions and provinces.
+  title: COVID-19 Statistics API
+  version: 1.0.0
+servers:
+- url: https://covid-19-statistics.p.rapidapi.com/
+security:
+- api_key: []
+paths:
+  /regions:
+    get:
+      description: Retrieve a list of regions.
+      operationId: getRegions
+      parameters:
+      - in: query
+        name: page
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: size
+        schema:
+          format: int32
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/getRegions_200_response'
+          description: Successful response
+        "500":
+          content: {}
+          description: Internal server error
+      summary: Get regions
+      x-accepts:
+      - '*/*'
+  /provinces:
+    get:
+      description: List of provinces for region.
+      operationId: getProvinces
+      parameters:
+      - description: ISO code for a region
+        in: query
+        name: iso
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: page
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: size
+        schema:
+          format: int32
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/getProvinces_200_response'
+          description: Successful response
+        "500":
+          content: {}
+          description: Internal server error
+      summary: Get provinces
+      x-accepts:
+      - '*/*'
+components:
+  schemas:
+    Region:
+      example:
+        iso: iso
+        name: name
+      properties:
+        iso:
+          type: string
+        name:
+          type: string
+      type: object
+    Province:
+      example:
+        iso: iso
+        province: province
+        name: name
+        lat: lat
+        long: long
+      properties:
+        iso:
+          type: string
+        name:
+          type: string
+        province:
+          type: string
+        lat:
+          type: string
+        long:
+          type: string
+      type: object
+    getRegions_200_response:
+      example:
+        data:
+        - iso: iso
+          name: name
+        - iso: iso
+          name: name
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Region'
+          type: array
+      type: object
+    getProvinces_200_response:
+      example:
+        data:
+        - iso: iso
+          province: province
+          name: name
+          lat: lat
+          long: long
+        - iso: iso
+          province: province
+          name: name
+          lat: lat
+          long: long
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Province'
+          type: array
+      type: object
+  securitySchemes:
+    api_key:
+      in: header
+      name: x-rapidapi-key
+      type: apiKey
+x-original-swagger-version: "2.0"
+
